@@ -1,0 +1,20 @@
+D:\项目\YH-8819ZH-K1000 温升实验（深圳良维）\MiyaModbus.Core\bin\Debug\netstandard2.0\MiyaModbus.Core.deps.json
+D:\项目\YH-8819ZH-K1000 温升实验（深圳良维）\MiyaModbus.Core\bin\Debug\netstandard2.0\MiyaModbus.Core.dll
+D:\项目\YH-8819ZH-K1000 温升实验（深圳良维）\MiyaModbus.Core\bin\Debug\netstandard2.0\MiyaModbus.Core.pdb
+D:\项目\YH-8819ZH-K1000 温升实验（深圳良维）\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.csproj.AssemblyReference.cache
+D:\项目\YH-8819ZH-K1000 温升实验（深圳良维）\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\项目\YH-8819ZH-K1000 温升实验（深圳良维）\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.AssemblyInfoInputs.cache
+D:\项目\YH-8819ZH-K1000 温升实验（深圳良维）\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.AssemblyInfo.cs
+D:\项目\YH-8819ZH-K1000 温升实验（深圳良维）\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.csproj.CoreCompileInputs.cache
+D:\项目\YH-8819ZH-K1000 温升实验（深圳良维）\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.dll
+D:\项目\YH-8819ZH-K1000 温升实验（深圳良维）\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.pdb
+D:\VSWorks\YHMCS\MiyaModbus.Core\bin\Debug\netstandard2.0\MiyaModbus.Core.deps.json
+D:\VSWorks\YHMCS\MiyaModbus.Core\bin\Debug\netstandard2.0\MiyaModbus.Core.dll
+D:\VSWorks\YHMCS\MiyaModbus.Core\bin\Debug\netstandard2.0\MiyaModbus.Core.pdb
+D:\VSWorks\YHMCS\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.csproj.AssemblyReference.cache
+D:\VSWorks\YHMCS\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\VSWorks\YHMCS\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.AssemblyInfoInputs.cache
+D:\VSWorks\YHMCS\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.AssemblyInfo.cs
+D:\VSWorks\YHMCS\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.csproj.CoreCompileInputs.cache
+D:\VSWorks\YHMCS\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.dll
+D:\VSWorks\YHMCS\MiyaModbus.Core\obj\Debug\netstandard2.0\MiyaModbus.Core.pdb

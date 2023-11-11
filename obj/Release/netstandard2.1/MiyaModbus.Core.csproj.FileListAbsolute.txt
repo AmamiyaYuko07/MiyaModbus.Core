@@ -1,0 +1,10 @@
+D:\VSWorks\MiyaModbus\MiyaModbus.Core\bin\Release\netstandard2.1\MiyaModbus.Core.deps.json
+D:\VSWorks\MiyaModbus\MiyaModbus.Core\bin\Release\netstandard2.1\MiyaModbus.Core.dll
+D:\VSWorks\MiyaModbus\MiyaModbus.Core\bin\Release\netstandard2.1\MiyaModbus.Core.pdb
+D:\VSWorks\MiyaModbus\MiyaModbus.Core\obj\Release\netstandard2.1\MiyaModbus.Core.csproj.AssemblyReference.cache
+D:\VSWorks\MiyaModbus\MiyaModbus.Core\obj\Release\netstandard2.1\MiyaModbus.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\VSWorks\MiyaModbus\MiyaModbus.Core\obj\Release\netstandard2.1\MiyaModbus.Core.AssemblyInfoInputs.cache
+D:\VSWorks\MiyaModbus\MiyaModbus.Core\obj\Release\netstandard2.1\MiyaModbus.Core.AssemblyInfo.cs
+D:\VSWorks\MiyaModbus\MiyaModbus.Core\obj\Release\netstandard2.1\MiyaModbus.Core.csproj.CoreCompileInputs.cache
+D:\VSWorks\MiyaModbus\MiyaModbus.Core\obj\Release\netstandard2.1\MiyaModbus.Core.dll
+D:\VSWorks\MiyaModbus\MiyaModbus.Core\obj\Release\netstandard2.1\MiyaModbus.Core.pdb
