@@ -22,11 +22,12 @@ namespace MiyaModbus.Core.Networks
         {
             Address = address;
             Port = port;
-            client = new TcpClient(new IPEndPoint(IPAddress.Parse(address), port));
+            client = new TcpClient();
         }
 
         public override async Task ConnectAsync(CancellationToken cancellationToken)
         {
+            await Task.Delay(0);
             if (client != null)
             {
                 client.Dispose();
@@ -35,7 +36,7 @@ namespace MiyaModbus.Core.Networks
             if (string.IsNullOrWhiteSpace(Address)) throw new ArgumentNullException("param address is null");
             if (Port == 0) throw new Exception("param port is zero");
             client = new TcpClient();
-            await client.ConnectAsync(IPAddress.Parse(Address), Port);
+            client.ConnectAsync(IPAddress.Parse(Address), Port).Wait(cancellationToken);
         }
 
         public override async Task<byte[]> ReciveAsync(CancellationToken cancellationToken)
@@ -89,7 +90,7 @@ namespace MiyaModbus.Core.Networks
             throw new NetworkNotConnectException($"network {Address}:{Port} not connected");
         }
 
-        public override async Task Start(double timeout = 5)
+        public override async Task Start(double timeout = 3)
         {
             if (IsConnected) return;
             await ConnectAsync(new CancellationTokenSource(TimeSpan.FromSeconds(timeout)).Token);

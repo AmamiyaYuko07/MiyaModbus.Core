@@ -32,7 +32,7 @@ namespace MiyaModbus.Core.Devices
         {
             if (!IsRunning)
             {
-                throw new Exception($"Device {Code} not running！");
+                throw new Exception($"设备{Code}尚未运行！");
             }
             var tryCount = Options.DeviceRetryCount;
             var options = new ResultOption
@@ -42,7 +42,7 @@ namespace MiyaModbus.Core.Devices
             };
             while (IsRunning && tryCount > 0)
             {
-                var retData = new byte[0];
+                byte[] retData;
                 try
                 {
                     retData = await Channel.SendMessageAsync(message);
@@ -95,6 +95,7 @@ namespace MiyaModbus.Core.Devices
                         case 0x05:
                         case 0x06:
                         case 0x10:
+                        case 0x0F:
                             result = new ModbusRtuWriteResult(options);
                             break;
                         default:

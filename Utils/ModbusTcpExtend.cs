@@ -12,6 +12,7 @@ namespace MiyaModbus.Core.Utils
 {
     public static class ModbusTcpExtend
     {
+
         /// <summary>
         /// 读取保持寄存器单字数据
         /// </summary>
@@ -25,8 +26,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetShort();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -48,8 +49,8 @@ namespace MiyaModbus.Core.Utils
                 }
                 return shorts.ToArray();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -65,8 +66,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetShort();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -82,8 +83,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetInt();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -99,8 +100,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetInt();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -116,8 +117,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetUShort();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -133,8 +134,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetUShort();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -150,8 +151,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetUInt();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -167,8 +168,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetUInt();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -184,8 +185,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetLong();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -201,8 +202,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetULong();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -218,8 +219,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetLong();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -235,8 +236,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetULong();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -252,8 +253,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetFloat();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -269,8 +270,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetDouble();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -286,8 +287,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetFloat();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -303,8 +304,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetDouble();
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -321,8 +322,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetBool(0);
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>
@@ -372,8 +373,8 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetBool(0);
             }
-            
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+
         }
 
         /// <summary>

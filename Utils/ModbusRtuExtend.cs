@@ -25,12 +25,19 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetShort();
             }
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
+        /// <summary>
+        /// 读取保持寄存器多字节数据
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
         public static async Task<short[]> ReadShortsAsync(this ModbusRtuDevice device, short point, short length)
         {
-            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, 1));
+            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, length));
             if (result.IsSuccess)
             {
                 List<short> shorts = new List<short>();
@@ -40,7 +47,24 @@ namespace MiyaModbus.Core.Utils
                 }
                 return shorts.ToArray();
             }
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
+        }
+
+        /// <summary>
+        /// 读取保持寄存器多字节
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static async Task<byte[]> ReadDataAsync(this ModbusRtuDevice device, short point, short length)
+        {
+            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, length));
+            if (result.IsSuccess)
+            {
+                return result.Result;
+            }
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -56,7 +80,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetShort();
             }
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -72,8 +96,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetInt();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -89,8 +112,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetInt();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -106,8 +128,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetUShort();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -123,8 +144,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetUShort();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -140,8 +160,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetUInt();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -157,8 +176,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetUInt();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -174,8 +192,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetLong();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -191,8 +208,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetULong();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -208,8 +224,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetLong();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -225,8 +240,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetULong();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -242,8 +256,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetFloat();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -259,8 +272,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetDouble();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -276,8 +288,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetFloat();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -293,8 +304,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetDouble();
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -311,8 +321,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetBool(0);
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -345,8 +354,7 @@ namespace MiyaModbus.Core.Utils
                 }
                 return lists;
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -363,8 +371,7 @@ namespace MiyaModbus.Core.Utils
             {
                 return result.GetBool(0);
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -397,8 +404,7 @@ namespace MiyaModbus.Core.Utils
                 }
                 return lists;
             }
-
-            return default;
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>
@@ -429,6 +435,25 @@ namespace MiyaModbus.Core.Utils
                 Array.Reverse(data);
             }
             var result = await device.SendMessageAsync(new ModbusRtuWriteHoldRegMessage(device.StationId, point, data));
+            return result.IsSuccess;
+        }
+
+        /// <summary>
+        /// 批量写入短整型
+        /// </summary>
+        public static async Task<bool> WriteShortsAsync(this ModbusRtuDevice device,short point,params short[] values)
+        {
+            List<byte> bytes = new List<byte>();
+            foreach(var value in values)
+            {
+                var data = BitConverter.GetBytes(value);
+                if (device.Options.ShortReverse)
+                {
+                    Array.Reverse(data);
+                }
+                bytes.AddRange(data);
+            }
+            var result = await device.SendMessageAsync(new ModbusRtuWriteHoldRegMessage(device.StationId, point, bytes.ToArray()));
             return result.IsSuccess;
         }
 

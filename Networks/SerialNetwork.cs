@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.IO.Ports;
+using MiyaModbus.Core.Channels;
 
 namespace MiyaModbus.Core.Networks
 {
@@ -73,16 +74,12 @@ namespace MiyaModbus.Core.Networks
                     serialPort.Open();
                 }
                 List<byte> data = new List<byte>();
-                while (serialPort.BytesToRead == 0 && !cancellationToken.IsCancellationRequested)
-                {
-                    await Task.Delay(50);
-                }
                 while (serialPort.BytesToRead > 0)
                 {
                     var temp = new byte[serialPort.BytesToRead];
                     serialPort.Read(temp, 0, temp.Length);
                     data.AddRange(temp);
-                    await Task.Delay(50);
+                    await Task.Delay(30);
                 }
                 return data.ToArray();
             }

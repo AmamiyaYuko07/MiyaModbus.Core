@@ -21,14 +21,17 @@ namespace MiyaModbus.Core.Utils
             }
             else
             {
-                return default;
+                throw new Exception($"对于消息:{message}的返回值错误");
             }
         }
 
-        public static async Task<bool> OnlyWriteAsync(this ASCIIDevice device, string message)
+        public static async Task OnlyWriteAsync(this ASCIIDevice device, string message)
         {
             var result = await device.SendMessageAsync(new ASCIIOnlyWriteMessage(message));
-            return result.IsSuccess;
+            if (!result.IsSuccess)
+            {
+                throw new Exception($"消息:{message}的发送失败");
+            }
         }
 
         public static async Task<string> OnlyReadAsync(this ASCIIDevice device)
@@ -40,7 +43,7 @@ namespace MiyaModbus.Core.Utils
             }
             else
             {
-                return default;
+                throw new Exception($"设备没有返回任何返回值！");
             }
         }
     }

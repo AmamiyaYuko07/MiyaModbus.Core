@@ -28,7 +28,7 @@ namespace MiyaModbus.Core.Utils
             {
                 Array.Reverse(temp);
             }
-            return BitConverter.ToInt16(bytes, 0);
+            return BitConverter.ToInt16(temp, 0);
         }
 
         public static int ToInt32(this byte[] bytes)
@@ -51,6 +51,18 @@ namespace MiyaModbus.Core.Utils
                 Array.Reverse(temp);
             }
             return BitConverter.ToInt16(temp, 0);
+        }
+
+        public static float ToSingle(this byte[] bytes, int index)
+        {
+            var temp = new byte[4];
+            var temp2 = new byte[4];
+            Buffer.BlockCopy(bytes, index, temp, 0, 4);
+            temp2[1] = temp[0];
+            temp2[0] = temp[1];
+            temp2[3] = temp[2];
+            temp2[2] = temp[3];
+            return BitConverter.ToSingle(temp2, 0);
         }
 
         public static bool BytesEquals(this byte[] a, byte[] b)

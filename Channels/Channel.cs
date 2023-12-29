@@ -60,7 +60,6 @@ namespace MiyaModbus.Core.Channels
         /// <returns></returns>
         public async Task Start()
         {
-            await Task.Delay(0);
             if (IsRunning) return;
             IsRunning = true;
             if (CancellationTokenSource != null)
@@ -69,6 +68,13 @@ namespace MiyaModbus.Core.Channels
                 CancellationTokenSource = null;
             }
             CancellationTokenSource = new CancellationTokenSource();
+            try
+            {
+                var timeout = _options.ConnectTimeout;
+                var token = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSource.Token, new CancellationTokenSource(timeout).Token);
+                await Network.ConnectAsync(token.Token);
+            }
+            catch { }
             ChannelProcess();
         }
 
@@ -120,7 +126,9 @@ namespace MiyaModbus.Core.Channels
                     {
                         if (!IsConnected)
                         {
-                            await Network.ConnectAsync(CancellationTokenSource.Token);
+                            var timeout = _options.ConnectTimeout;
+                            var token = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSource.Token, new CancellationTokenSource(timeout).Token);
+                            await Network.ConnectAsync(token.Token);
                         }
                         if (IsConnected && _messages.TryDequeue(out var message))
                         {

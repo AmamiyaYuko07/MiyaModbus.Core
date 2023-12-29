@@ -1,7 +1,7 @@
 # MiyaModbus
 ## install
 ``` C#
-Install-Package MiyaModbus.Core -Version 1.0.2
+Install-Package MiyaModbus.Core -Version 1.0.3
 ```
 ## Simple Usage
 ### Create Device
