@@ -8,3 +8,4 @@ D:\VSWorks\MiyaModbus\MiyaModbus.Core\bin\Release\netstandard2.0\MiyaModbus.Core
 D:\VSWorks\MiyaModbus\MiyaModbus.Core\bin\Release\netstandard2.0\MiyaModbus.Core.pdb
 D:\VSWorks\MiyaModbus\MiyaModbus.Core\obj\Release\netstandard2.0\MiyaModbus.Core.dll
 D:\VSWorks\MiyaModbus\MiyaModbus.Core\obj\Release\netstandard2.0\MiyaModbus.Core.pdb
+D:\VSWorks\MiyaModbus\MiyaModbus.Core\obj\Release\netstandard2.0\MiyaModbus.Core.sourcelink.json

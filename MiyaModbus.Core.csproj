@@ -4,8 +4,15 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<Version>1.0.3</Version>
+		<Version>1.0.6</Version>
 		<Description>Easy ModbusRtu、ModbusTcp、ModbusRtuOverTcp And ASCII serial/tcp Communications Library</Description>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>MiyaModbus</Title>
+		<Authors>Amamiya</Authors>
+		<Copyright></Copyright>
+		<PackageProjectUrl>https://github.com/AmamiyaYuko07/MiyaModbus.Core</PackageProjectUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageReleaseNotes>更新，增加串口通信时的速度</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

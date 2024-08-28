@@ -73,6 +73,21 @@ namespace MiyaModbus.Core.Factories
             return device;
         }
 
+        public static ModbusRtuDevice CreateDirectModbusRtuDevice(byte stationId,
+            string portname,
+            int baudrate,
+            int databits,
+            StopBits stopbits,
+            Parity parity)
+        {
+            var channel = new DirectChannel(new SerialNetwork(portname, baudrate, databits, stopbits, parity));
+            var device = new ModbusRtuDevice(channel, options =>
+            {
+                options.AddParams("stationid", stationId);
+            });
+            return device;
+        }
+
         public static ASCIIDevice CreateSerialASCIIDevice(string portname,
             int baudrate,
             int databits,
@@ -88,6 +103,24 @@ namespace MiyaModbus.Core.Factories
         {
             var channel = new DefaultChannel(new TcpNetwork(address, port));
             var device = new ASCIIDevice(channel);
+            return device;
+        }
+
+        public static BinaryDevice CreateSerialBinaryDevice(string portname,
+            int baudrate,
+            int databits,
+            StopBits stopbits,
+            Parity parity)
+        {
+            var channel = new DirectChannel(new SerialNetwork(portname, baudrate, databits, stopbits, parity));
+            var device = new BinaryDevice(channel);
+            return device;
+        }
+
+        public static BinaryDevice CreateTcpBinaryDevice(string address, int port)
+        {
+            var channel = new DirectChannel(new TcpNetwork(address, port));
+            var device = new BinaryDevice(channel);
             return device;
         }
     }

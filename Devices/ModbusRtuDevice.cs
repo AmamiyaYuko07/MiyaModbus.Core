@@ -40,6 +40,7 @@ namespace MiyaModbus.Core.Devices
                 Device = this,
                 Data = message.Build()
             };
+            Exception exc = null;
             while (IsRunning && tryCount > 0)
             {
                 byte[] retData;
@@ -49,6 +50,7 @@ namespace MiyaModbus.Core.Devices
                 }
                 catch (Exception ex)
                 {
+                    exc = ex;
                     tryCount--;
                     continue;
                 }
@@ -106,6 +108,8 @@ namespace MiyaModbus.Core.Devices
                     return result;
                 }
             }
+            if (exc != null)
+                throw exc;
             return new FailedResult(options);
         }
     }

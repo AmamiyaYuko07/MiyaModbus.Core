@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using System.IO.Ports;
 
 namespace MiyaModbus.Core.Networks
 {
-    public class SerialNetwork : BaseNetwork
+    /// <summary>
+    /// 此类不管有没有读取到数据
+    /// 都会直接返回
+    /// </summary>
+    public class SerialRealTimeNetwork : BaseNetwork
     {
         private SerialPort serialPort = null;
 
@@ -23,7 +27,11 @@ namespace MiyaModbus.Core.Networks
 
         public override bool IsConnected => serialPort?.IsOpen ?? false;
 
-        public SerialNetwork(string portName, int baudRate, int dataBits, StopBits stopBits, Parity parity)
+        public SerialRealTimeNetwork(string portName,
+            int baudRate,
+            int dataBits,
+            StopBits stopBits,
+            Parity parity)
         {
             PortName = portName;
             BaudRate = baudRate;
@@ -76,41 +84,11 @@ namespace MiyaModbus.Core.Networks
                 }
 
                 List<byte> data = new List<byte>();
-                while (serialPort.BytesToRead == 0 && !cancellationToken.IsCancellationRequested)
-                {
-                    await Task.Delay(1);
-                }
-
-                while (serialPort.BytesToRead > 0)
-                {
-                    byte[] array = new byte[serialPort.BytesToRead];
-                    serialPort.Read(array, 0, array.Length);
-                    data.AddRange(array);
-                    await Task.Delay(20);
-
-                    //每隔20毫秒判断一次是否有数据 但需要经过60毫秒才确定数据传输完成
-                    if (serialPort.BytesToRead > 0)
-                    {
-                        array = new byte[serialPort.BytesToRead];
-                        serialPort.Read(array, 0, array.Length);
-                        data.AddRange(array);
-                        await Task.Delay(20);
-                        continue;
-                    }
-                    await Task.Delay(20);
-
-                    if (serialPort.BytesToRead > 0)
-                    {
-                        array = new byte[serialPort.BytesToRead];
-                        serialPort.Read(array, 0, array.Length);
-                        data.AddRange(array);
-                        await Task.Delay(20);
-                        continue;
-                    }
-                    await Task.Delay(20);
-                }
-
-                return data.ToArray();
+                await Task.Delay(0);
+                byte[] array = new byte[serialPort.BytesToRead];
+                serialPort.Read(array, 0, array.Length);
+                data.AddRange(array);
+                return array;
             }
 
             throw new NullReferenceException("serial is null");

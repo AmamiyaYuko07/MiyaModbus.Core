@@ -1,3 +1,5 @@
 is_global = true
 build_property.RootNamespace = MiyaModbus.Core
-build_property.ProjectDir = D:\VSWorks\YHMCS\MiyaModbus.Core\
+build_property.ProjectDir = D:\VSWorks\MiyaModbus\MiyaModbus.Core\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

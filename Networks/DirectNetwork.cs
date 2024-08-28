@@ -76,7 +76,7 @@ namespace MiyaModbus.Core.Networks
                         }
                         if (datas.Count > 0) return datas.ToArray();
                         else count--;
-                        await Task.Delay(25);
+                        await Task.Delay(20);
                     }
                     else
                     {

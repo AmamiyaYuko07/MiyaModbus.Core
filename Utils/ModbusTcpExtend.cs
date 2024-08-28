@@ -88,6 +88,29 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
+        /// 读取多个整型
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static async Task<int[]> ReadIntsAsync(this ModbusTcpDevice device, short point, short length)
+        {
+            var result = await device.SendMessageAsync(new ModbusReadHoldRegMessage(device.StationId, point, (short)(length * 2)));
+            if (result.IsSuccess)
+            {
+                List<int> ints = new List<int>();
+                for (var i = 0; i < length; i++)
+                {
+                    ints.Add(result.GetInt(i * 4));
+                }
+                return ints.ToArray();
+            }
+            throw new Exception($"对于点位:{point}的返回值错误");
+        }
+
+        /// <summary>
         /// 读取输入寄存器双字数据
         /// </summary>
         /// <param name="device"></param>
@@ -255,6 +278,29 @@ namespace MiyaModbus.Core.Utils
             }
             throw new Exception($"对于点位:{point}的返回值错误");
 
+        }
+
+        /// <summary>
+        /// 读取多个浮点数
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static async Task<float[]> ReadFloatsAsync(this ModbusTcpDevice device, short point, short length)
+        {
+            var result = await device.SendMessageAsync(new ModbusReadHoldRegMessage(device.StationId, point, (short)(length * 2)));
+            if (result.IsSuccess)
+            {
+                List<float> floats = new List<float>();
+                for (var i = 0; i < length; i++)
+                {
+                    floats.Add(result.GetFloat(i * 4));
+                }
+                return floats.ToArray();
+            }
+            throw new Exception($"对于点位:{point}的返回值错误");
         }
 
         /// <summary>

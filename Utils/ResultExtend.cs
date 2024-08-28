@@ -33,6 +33,28 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
+        /// 获取整型
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        /// <exception cref="LessDataException"></exception>
+        public static int GetInt(this IResult result, int skip)
+        {
+            if (!result.IsSuccess || result.Result.Length < 4)
+            {
+                throw new LessDataException(result.Result, "return value failed or data to less");
+            }
+            var data = result.Result.Skip(skip).Take(4).ToArray();
+            var options = result.Option.Device?.Options;
+            if (options != null)
+            {
+                var ret = data.BytesOrder(options.IntOrder);
+                return BitConverter.ToInt32(ret, 0);
+            }
+            return BitConverter.ToInt32(data, 0);
+        }
+
+        /// <summary>
         /// 获取无符号整型
         /// </summary>
         /// <param name="result"></param>
@@ -152,6 +174,28 @@ namespace MiyaModbus.Core.Utils
                 throw new LessDataException(result.Result, "return value failed or data to less");
             }
             var data = result.Result.Take(4).ToArray();
+            var options = result.Option.Device?.Options;
+            if (options != null)
+            {
+                var ret = data.BytesOrder(options.FloatOrder);
+                return BitConverter.ToSingle(ret, 0);
+            }
+            return BitConverter.ToSingle(data, 0);
+        }
+
+
+        /// <summary>
+        /// 获取浮点数
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public static float GetFloat(this IResult result, int skip)
+        {
+            if (!result.IsSuccess || result.Result.Length < 4)
+            {
+                throw new LessDataException(result.Result, "return value failed or data to less");
+            }
+            var data = result.Result.Skip(skip).Take(4).ToArray();
             var options = result.Option.Device?.Options;
             if (options != null)
             {

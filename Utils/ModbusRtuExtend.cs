@@ -100,6 +100,29 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
+        /// 读取多个整型
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static async Task<int[]> ReadIntsAsync(this ModbusRtuDevice device, short point, short length)
+        {
+            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, (short)(length * 2)));
+            if (result.IsSuccess)
+            {
+                List<int> ints = new List<int>();
+                for (var i = 0; i < length; i++)
+                {
+                    ints.Add(result.GetInt(i * 4));
+                }
+                return ints.ToArray();
+            }
+            throw new Exception($"对于点位:{point}的返回值错误");
+        }
+
+        /// <summary>
         /// 读取输入寄存器双字数据
         /// </summary>
         /// <param name="device"></param>
@@ -255,6 +278,29 @@ namespace MiyaModbus.Core.Utils
             if (result.IsSuccess)
             {
                 return result.GetFloat();
+            }
+            throw new Exception($"对于点位:{point}的返回值错误");
+        }
+
+        /// <summary>
+        /// 读取多个浮点数
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static async Task<float[]> ReadFloatsAsync(this ModbusRtuDevice device, short point, short length)
+        {
+            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, (short)(length * 2)));
+            if (result.IsSuccess)
+            {
+                List<float> floats = new List<float>();
+                for (var i = 0; i < length; i++)
+                {
+                    floats.Add(result.GetFloat(i * 4));
+                }
+                return floats.ToArray();
             }
             throw new Exception($"对于点位:{point}的返回值错误");
         }
@@ -441,10 +487,10 @@ namespace MiyaModbus.Core.Utils
         /// <summary>
         /// 批量写入短整型
         /// </summary>
-        public static async Task<bool> WriteShortsAsync(this ModbusRtuDevice device,short point,params short[] values)
+        public static async Task<bool> WriteShortsAsync(this ModbusRtuDevice device, short point, params short[] values)
         {
             List<byte> bytes = new List<byte>();
-            foreach(var value in values)
+            foreach (var value in values)
             {
                 var data = BitConverter.GetBytes(value);
                 if (device.Options.ShortReverse)
@@ -487,6 +533,26 @@ namespace MiyaModbus.Core.Utils
             var data = BitConverter.GetBytes(value);
             var ret = data.BytesOrder(device.Options.IntOrder);
             var result = await device.SendMessageAsync(new ModbusRtuWriteHoldRegMessage(device.StationId, point, ret));
+            return result.IsSuccess;
+        }
+
+        /// <summary>
+        /// 将浮点数写入指定保持寄存器
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static async Task<bool> WriteIntsAsync(this ModbusRtuDevice device, short point, params int[] values)
+        {
+            List<byte> bytes = new List<byte>();
+            foreach (var value in values)
+            {
+                var data = BitConverter.GetBytes(value);
+                data = data.BytesOrder(device.Options.IntOrder);
+                bytes.AddRange(data);
+            }
+            var result = await device.SendMessageAsync(new ModbusRtuWriteHoldRegMessage(device.StationId, point, bytes.ToArray()));
             return result.IsSuccess;
         }
 
@@ -547,6 +613,26 @@ namespace MiyaModbus.Core.Utils
             var data = BitConverter.GetBytes(value);
             var ret = data.BytesOrder(device.Options.FloatOrder);
             var result = await device.SendMessageAsync(new ModbusRtuWriteHoldRegMessage(device.StationId, point, ret));
+            return result.IsSuccess;
+        }
+
+        /// <summary>
+        /// 将浮点数写入指定保持寄存器
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static async Task<bool> WriteFloatsAsync(this ModbusRtuDevice device, short point, params float[] values)
+        {
+            List<byte> bytes = new List<byte>();
+            foreach (var value in values)
+            {
+                var data = BitConverter.GetBytes(value);
+                data = data.BytesOrder(device.Options.FloatOrder);
+                bytes.AddRange(data);
+            }
+            var result = await device.SendMessageAsync(new ModbusRtuWriteHoldRegMessage(device.StationId, point, bytes.ToArray()));
             return result.IsSuccess;
         }
 

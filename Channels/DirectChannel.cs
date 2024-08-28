@@ -28,18 +28,11 @@ namespace MiyaModbus.Core.Channels
 
         public async Task<byte[]> SendMessageAsync(IMessage message)
         {
-            try
-            {
-                var data = message.Build();
-                CancellationTokenSource cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(3));
-                await Network.SendAsync(data, cancellationToken.Token);
-                var result = await Network.ReciveAsync(cancellationToken.Token);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                return default;
-            }
+            var data = message.Build();
+            CancellationTokenSource cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+            await Network.SendAsync(data, cancellationToken.Token);
+            var result = await Network.ReciveAsync(cancellationToken.Token);
+            return result;
         }
 
         public async Task Start()
