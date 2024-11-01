@@ -1,7 +1,7 @@
 # MiyaModbus
 ## 安装
 ``` C#
-Install-Package MiyaModbus.Core -Version 1.0.3
+Install-Package MiyaModbus.Core -Version 1.0.8
 ```
 ## 简易使用方法
 ### 创建设备
@@ -22,6 +22,8 @@ Install-Package MiyaModbus.Core -Version 1.0.3
 DeviceFactory.CreateModbusRtuOverTcpDevice("COM1", 9600, 8, StopBits.One, Parity.None);
 ```
 还有其他类似的设备创建方式
+也可以直接指定设备类型、通道和网络来创建设备，这种创建方式
+自由度更改，可以任意组合。
 
 ### 读写数据
 ``` C#
@@ -87,6 +89,9 @@ device.Options.LongOrder = LongByteOrder.ABCDEFGH;
     });
 
 ```
-
+**仅在使用DefaultChannel的情况下**
 此时***deivce1***和***device2***发送的数据都会经过同一个通道，并在通道内自动
 按顺序发送并获取返回结果，两者互不干扰。
+**如果使用DirectChannel的情况下**
+两者之间是可能会互相干扰的，但是通讯速度更快，是DefaultChannel的
+三倍以上。

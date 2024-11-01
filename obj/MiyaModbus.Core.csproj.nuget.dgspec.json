@@ -5,7 +5,7 @@
   },
   "projects": {
     "D:\\VSWorks\\MiyaModbus\\MiyaModbus.Core\\MiyaModbus.Core.csproj": {
-      "version": "1.0.6",
+      "version": "1.0.8",
       "restore": {
         "projectUniqueName": "D:\\VSWorks\\MiyaModbus\\MiyaModbus.Core\\MiyaModbus.Core.csproj",
         "projectName": "MiyaModbus.Core",

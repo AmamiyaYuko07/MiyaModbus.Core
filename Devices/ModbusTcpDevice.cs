@@ -86,6 +86,7 @@ namespace MiyaModbus.Core.Devices
                         case 0x05:
                         case 0x06:
                         case 0x10:
+                        case 0x0F:
                             result = new ModbusWriteResult(options);
                             break;
                         default:

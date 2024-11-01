@@ -60,13 +60,13 @@ namespace MiyaModbus.Core.Utils
         /// <param name="result"></param>
         /// <returns></returns>
         /// <exception cref="LessDataException"></exception>
-        public static uint GetUInt(this IResult result)
+        public static uint GetUInt(this IResult result, int skip = 0)
         {
             if (!result.IsSuccess || result.Result.Length < 4)
             {
                 throw new LessDataException(result.Result, "return value failed or data to less");
             }
-            var data = result.Result.Take(4).ToArray();
+            var data = result.Result.Skip(skip).Take(4).ToArray();
             var options = result.Option.Device?.Options;
             if (options != null)
             {
@@ -103,13 +103,13 @@ namespace MiyaModbus.Core.Utils
         /// <param name="result"></param>
         /// <returns></returns>
         /// <exception cref="LessDataException"></exception>
-        public static ushort GetUShort(this IResult result)
+        public static ushort GetUShort(this IResult result, int skip = 0)
         {
             if (!result.IsSuccess || result.Result.Length < 2)
             {
                 throw new LessDataException(result.Result, "return value failed or data to less");
             }
-            var data = result.Result.Take(2).ToArray();
+            var data = result.Result.Skip(skip).Take(2).ToArray();
             var options = result.Option.Device?.Options;
             if (options != null && options.ShortReverse)
             {

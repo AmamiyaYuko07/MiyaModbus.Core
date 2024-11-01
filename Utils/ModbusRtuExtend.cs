@@ -13,7 +13,7 @@ namespace MiyaModbus.Core.Utils
     public static class ModbusRtuExtend
     {
         /// <summary>
-        /// 读取保持寄存器单字数据
+        /// 读取保持寄存器有符号整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -29,7 +29,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取保持寄存器多字节数据
+        /// 批量读取保持寄存器有符号整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -51,7 +51,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取保持寄存器多字节
+        /// 读取保持寄存器多字节数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -68,7 +68,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取输入寄存器单字数据
+        /// 读取输入寄存器有符号短整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -84,7 +84,28 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取保持寄存器双字数据
+        /// 批量读取输入寄存器有符号短整型数据
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static async Task<short[]> ReadInputShortsAsync(this ModbusRtuDevice device, short point, short length)
+        {
+            var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, length));
+            if (result.IsSuccess)
+            {
+                List<short> shorts = new List<short>();
+                for (var i = 0; i < length; i++)
+                {
+                    shorts.Add(result.GetShort(i * 2));
+                }
+                return shorts.ToArray();
+            }
+            throw new Exception($"对于点位:{point}的返回值错误");
+        }
+
+        /// <summary>
+        /// 读取保持寄存器有符号整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -100,7 +121,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取多个整型
+        /// 批量读取保持寄存器有符号整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -123,7 +144,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取输入寄存器双字数据
+        /// 读取输入寄存器有符号整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -139,7 +160,28 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取保持寄存器无符号单字数据
+        /// 批量读取输入寄存器有符号整型数据
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static async Task<int[]> ReadInputIntsAsync(this ModbusRtuDevice device, short point, short length)
+        {
+            var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, (short)(length * 2)));
+            if (result.IsSuccess)
+            {
+                List<int> ints = new List<int>();
+                for (var i = 0; i < length; i++)
+                {
+                    ints.Add(result.GetInt(i * 4));
+                }
+                return ints.ToArray();
+            }
+            throw new Exception($"对于点位:{point}的返回值错误");
+        }
+
+        /// <summary>
+        /// 读取保持寄存器无符号短整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -155,7 +197,25 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取输入寄存器无符号单字数据
+        /// 批量读取保持寄存器无符号短整型数据
+        /// </summary>
+        public static async Task<ushort[]> ReadUShortsAsync(this ModbusRtuDevice device, short point, short length)
+        {
+            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, length));
+            if (result.IsSuccess)
+            {
+                List<ushort> shorts = new List<ushort>();
+                for (var i = 0; i < length; i++)
+                {
+                    shorts.Add(result.GetUShort(i * 2));
+                }
+                return shorts.ToArray();
+            }
+            throw new Exception($"对于点位:{point}的返回值错误");
+        }
+
+        /// <summary>
+        /// 读取输入寄存器无符号短整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -171,7 +231,28 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取保持寄存器无符号双字数据
+        /// 批量读取输入寄存器无符号短整型数据
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public static async Task<ushort[]> ReadInputUShortsAsync(this ModbusRtuDevice device, short point, short length)
+        {
+            var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, length));
+            if (result.IsSuccess)
+            {
+                List<ushort> shorts = new List<ushort>();
+                for (var i = 0; i < length; i++)
+                {
+                    shorts.Add(result.GetUShort(i * 2));
+                }
+                return shorts.ToArray();
+            }
+            throw new Exception($"对于点位:{point}的返回值错误");
+        }
+
+        /// <summary>
+        /// 读取保持寄存器无符号整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -187,7 +268,29 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取输入寄存器无符号双字数据
+        /// 批量读取保持寄存器无符号整型数据
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static async Task<uint[]> ReadUIntsAsync(this ModbusRtuDevice device, short point, short length)
+        {
+            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, (short)(length * 2)));
+            if (result.IsSuccess)
+            {
+                List<uint> ints = new List<uint>();
+                for (var i = 0; i < length; i++)
+                {
+                    ints.Add(result.GetUInt(i * 4));
+                }
+                return ints.ToArray();
+            }
+            throw new Exception($"对于点位:{point}的返回值错误");
+        }
+
+        /// <summary>
+        /// 读取输入寄存器无符号整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -203,7 +306,29 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取保持寄存器长整型
+        /// 批量读取输入寄存器无符号整型数据
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static async Task<uint[]> ReadInputUIntsAsync(this ModbusRtuDevice device, short point, short length)
+        {
+            var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, (short)(length * 2)));
+            if (result.IsSuccess)
+            {
+                List<uint> ints = new List<uint>();
+                for (var i = 0; i < length; i++)
+                {
+                    ints.Add(result.GetUInt(i * 4));
+                }
+                return ints.ToArray();
+            }
+            throw new Exception($"对于点位:{point}的返回值错误");
+        }
+
+        /// <summary>
+        /// 读取保持寄存器长整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -219,7 +344,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取保持寄存器无符号长整型
+        /// 读取保持寄存器无符号长整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -235,7 +360,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取输入寄存器长整型
+        /// 读取输入寄存器长整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -251,7 +376,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取输入寄存器无符号长整型
+        /// 读取输入寄存器无符号长整型数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -267,7 +392,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取保持寄存器浮点数
+        /// 读取保持寄存器浮点数数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -283,7 +408,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取多个浮点数
+        /// 批量读取保持寄存器浮点数数据
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -338,6 +463,28 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
+        /// 批量读取输入寄存器浮点数
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static async Task<float[]> ReadInputFloatsAsync(this ModbusRtuDevice device, short point, short length)
+        {
+            var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, (short)(length * 2)));
+            if (result.IsSuccess)
+            {
+                List<float> floats = new List<float>();
+                for (var i = 0; i < length; i++)
+                {
+                    floats.Add(result.GetFloat(i * 4));
+                }
+                return floats.ToArray();
+            }
+            throw new Exception($"对于点位:{point}的返回值错误");
+        }
+
+        /// <summary>
         /// 读取输入寄存器双精度浮点数
         /// </summary>
         /// <param name="device"></param>
@@ -354,7 +501,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取指定线圈状态
+        /// 读取线圈状态
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -371,7 +518,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取指定线圈状态数组
+        /// 批量读取线圈状态
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -421,7 +568,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 读取指定输入线圈状态数组
+        /// 批量读取指定输入线圈状态
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -454,7 +601,20 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 写入指定位置线圈
+        /// 写入线圈状态
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        public static async Task<bool> WriteSingleCoilAsync(this ModbusRtuDevice device, short point, bool value)
+        {
+            var result = await device.SendMessageAsync(new ModbusRtuWriteSingleCoilMessage(device.StationId, point, value));
+            return result.IsSuccess;
+        }
+
+        /// <summary>
+        /// 批量写入线圈
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -480,7 +640,7 @@ namespace MiyaModbus.Core.Utils
             {
                 Array.Reverse(data);
             }
-            var result = await device.SendMessageAsync(new ModbusRtuWriteHoldRegMessage(device.StationId, point, data));
+            var result = await device.SendMessageAsync(new ModbusRtuWriteSingleHoldRegMessage(device.StationId, point, data));
             return result.IsSuccess;
         }
 
@@ -517,7 +677,30 @@ namespace MiyaModbus.Core.Utils
             {
                 Array.Reverse(data);
             }
-            var result = await device.SendMessageAsync(new ModbusRtuWriteHoldRegMessage(device.StationId, point, data));
+            var result = await device.SendMessageAsync(new ModbusRtuWriteSingleHoldRegMessage(device.StationId, point, data));
+            return result.IsSuccess;
+        }
+
+        /// <summary>
+        /// 批量写入无符号短整型到保持寄存器
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static async Task<bool> WriteUShortsAsync(this ModbusRtuDevice device, short point, params ushort[] values)
+        {
+            List<byte> bytes = new List<byte>();
+            foreach (var value in values)
+            {
+                var data = BitConverter.GetBytes(value);
+                if (device.Options.ShortReverse)
+                {
+                    Array.Reverse(data);
+                }
+                bytes.AddRange(data);
+            }
+            var result = await device.SendMessageAsync(new ModbusRtuWriteHoldRegMessage(device.StationId, point, bytes.ToArray()));
             return result.IsSuccess;
         }
 
@@ -537,7 +720,7 @@ namespace MiyaModbus.Core.Utils
         }
 
         /// <summary>
-        /// 将浮点数写入指定保持寄存器
+        /// 批量将整型写入保持寄存器
         /// </summary>
         /// <param name="device"></param>
         /// <param name="point"></param>
@@ -568,6 +751,26 @@ namespace MiyaModbus.Core.Utils
             var data = BitConverter.GetBytes(value);
             var ret = data.BytesOrder(device.Options.IntOrder);
             var result = await device.SendMessageAsync(new ModbusRtuWriteHoldRegMessage(device.StationId, point, ret));
+            return result.IsSuccess;
+        }
+
+        /// <summary>
+        /// 批量将无符号整型写入保持寄存器
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="point"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static async Task<bool> WriteUIntsAsync(this ModbusRtuDevice device, short point, params uint[] values)
+        {
+            List<byte> bytes = new List<byte>();
+            foreach (var value in values)
+            {
+                var data = BitConverter.GetBytes(value);
+                data = data.BytesOrder(device.Options.IntOrder);
+                bytes.AddRange(data);
+            }
+            var result = await device.SendMessageAsync(new ModbusRtuWriteHoldRegMessage(device.StationId, point, bytes.ToArray()));
             return result.IsSuccess;
         }
 

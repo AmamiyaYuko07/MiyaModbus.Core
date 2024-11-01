@@ -12,11 +12,12 @@ namespace MiyaModbus.Core.Networks
     public class TcpNetwork : BaseNetwork
     {
         private TcpClient client = null;
+
         public override bool IsConnected => client?.Connected ?? false;
 
-        public string Address { set; get; }
+        public string Address { get; set; }
 
-        public int Port { set; get; }
+        public int Port { get; set; }
 
         public TcpNetwork(string address, int port)
         {
@@ -33,8 +34,17 @@ namespace MiyaModbus.Core.Networks
                 client.Dispose();
                 client = null;
             }
-            if (string.IsNullOrWhiteSpace(Address)) throw new ArgumentNullException("param address is null");
-            if (Port == 0) throw new Exception("param port is zero");
+
+            if (string.IsNullOrWhiteSpace(Address))
+            {
+                throw new ArgumentNullException("param address is null");
+            }
+
+            if (Port == 0)
+            {
+                throw new Exception("param port is zero");
+            }
+
             client = new TcpClient();
             client.ConnectAsync(IPAddress.Parse(Address), Port).Wait(cancellationToken);
         }
@@ -43,35 +53,38 @@ namespace MiyaModbus.Core.Networks
         {
             if (IsConnected && client != null)
             {
-                if (!((client.Client.Poll(200, SelectMode.SelectRead) && (client.Client.Available == 0)) || !client.Connected))
+                NetworkStream ns = client.GetStream();
+                List<byte> datas = new List<byte>();
+                var count = 3;
+                while (!cancellationToken.IsCancellationRequested)
                 {
-                    if (client.Client.Poll(200, SelectMode.SelectRead) && client.Available > 0)
+                    if ((!client.Client.Poll(50, SelectMode.SelectRead) || client.Client.Available != 0) && client.Connected)
                     {
-                        var ns = client.GetStream();
-                        if (ns == null)
+                        if (client.Client.Poll(50, SelectMode.SelectRead) || client.Available > 0)
                         {
-                            throw new NullReferenceException("Netstream is null");
+                            byte[] buffer = new byte[1024];
+                            int word;
+                            while (client.Available > 0 && (word = await ns.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
+                            {
+                                byte[] temp = new byte[word];
+                                Buffer.BlockCopy(buffer, 0, temp, 0, word);
+                                datas.AddRange(temp);
+                            }
+                            continue;
                         }
-                        List<byte> data = new List<byte>();
-                        var buffer = new byte[1024];
-                        int word;
-                        while (client.Available > 0 && (word = await ns.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
-                        {
-                            var temp = new byte[word];
-                            Buffer.BlockCopy(buffer, 0, temp, 0, word);
-                            data.AddRange(temp);
-                        }
-                        return data.ToArray();
+                        if (datas.Count > 0) return datas.ToArray();
+                        else count--;
+                        await Task.Delay(20);
                     }
-                    return new byte[] { };
-                }
-                else
-                {
-                    client.Close();
-                    client.Dispose();
+                    else
+                    {
+                        client.Close();
+                        client.Dispose();
+                    }
+                    if (count <= 0) return datas.ToArray();
                 }
             }
-            return new byte[] { };
+            return new byte[0];
         }
 
         public override async Task SendAsync(byte[] data, CancellationToken cancellationToken)
@@ -80,20 +93,24 @@ namespace MiyaModbus.Core.Networks
             {
                 if (client.Client.Poll(200, SelectMode.SelectWrite))
                 {
-                    var ns = client.GetStream();
+                    NetworkStream ns = client.GetStream();
                     await ns.WriteAsync(data, 0, data.Length, cancellationToken);
                     await ns.FlushAsync(cancellationToken);
                     return;
                 }
+
                 throw new StreamCannotWriteException();
             }
+
             throw new NetworkNotConnectException($"network {Address}:{Port} not connected");
         }
 
-        public override async Task Start(double timeout = 3)
+        public override async Task Start(double timeout = 3.0)
         {
-            if (IsConnected) return;
-            await ConnectAsync(new CancellationTokenSource(TimeSpan.FromSeconds(timeout)).Token);
+            if (!IsConnected)
+            {
+                await ConnectAsync(new CancellationTokenSource(TimeSpan.FromSeconds(timeout)).Token);
+            }
         }
 
         public override async Task Stop()
@@ -102,9 +119,13 @@ namespace MiyaModbus.Core.Networks
             if (client != null && client.Client != null)
             {
                 if (client.Connected)
+                {
                     client.Close();
+                }
+
                 client.Dispose();
             }
+
             client = null;
         }
     }
