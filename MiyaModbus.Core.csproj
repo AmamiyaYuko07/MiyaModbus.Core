@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<Version>1.0.8</Version>
+		<Version>1.0.9</Version>
 		<Description>Easy ModbusRtu、ModbusTcp、ModbusRtuOverTcp And ASCII serial/tcp Communications Library</Description>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>MiyaModbus</Title>
@@ -12,7 +12,7 @@
 		<Copyright></Copyright>
 		<PackageProjectUrl>https://github.com/AmamiyaYuko07/MiyaModbus.Core</PackageProjectUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageReleaseNotes>新增了所有数据类型的批量读写，统一了TCP和RTU的方法与参数格式</PackageReleaseNotes>
+		<PackageReleaseNotes>新增了ModbusExtend扩展类，现在可以无感切换ModbusRTU和ModbusTCP的读写了</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
