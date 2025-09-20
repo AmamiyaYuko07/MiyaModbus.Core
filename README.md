@@ -1,7 +1,7 @@
 # MiyaModbus
 ## 安装
 ``` C#
-Install-Package MiyaModbus.Core -Version 1.0.8
+Install-Package MiyaModbus.Core -Version 1.0.9
 ```
 ## 简易使用方法
 ### 创建设备
