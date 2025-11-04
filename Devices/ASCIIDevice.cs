@@ -72,6 +72,10 @@ namespace MiyaModbus.Core.Devices
                     catch (Exception ex)
                     {
                         tryCount--;
+                        if (!IsRunning)
+                        {
+                            await StartAsync();
+                        }
                     }
                 }
             }
@@ -95,6 +99,10 @@ namespace MiyaModbus.Core.Devices
                     catch (Exception ex)
                     {
                         tryCount--;
+                        if (IsRunning)
+                        {
+                            await StartAsync();
+                        }
                     }
                 }
             }
@@ -124,6 +132,10 @@ namespace MiyaModbus.Core.Devices
                     catch (Exception ex)
                     {
                         tryCount--;
+                        if (IsRunning)
+                        {
+                            await StartAsync();
+                        }
                     }
                 }
             }

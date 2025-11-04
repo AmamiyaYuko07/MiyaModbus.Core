@@ -4,12 +4,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.IO.Ports;
+using System.IO;
 
 namespace MiyaModbus.Core.Networks
 {
     public class SerialNetwork : BaseNetwork
     {
         private SerialPort serialPort = null;
+        private readonly object _serialLock = new object();
 
         public string PortName { set; get; }
 
@@ -37,7 +39,11 @@ namespace MiyaModbus.Core.Networks
             await Task.Delay(0);
             if (serialPort != null)
             {
-                serialPort.Dispose();
+                try
+                {
+                    serialPort.Dispose();
+                }
+                catch { }
                 serialPort = null;
             }
             serialPort = new SerialPort();
@@ -51,19 +57,75 @@ namespace MiyaModbus.Core.Networks
 
         public override async Task SendAsync(byte[] data, CancellationToken cancellationToken)
         {
-            await Task.Delay(0);
-            if (serialPort != null)
+            await Task.Yield();
+
+            if (serialPort == null)
             {
-                if (!serialPort.IsOpen)
-                {
-                    serialPort.Open();
-                }
-                serialPort.DiscardInBuffer();
-                serialPort.DiscardOutBuffer();
-                serialPort.Write(data, 0, data.Length);
-                return;
+                throw new NullReferenceException("serial is null");
             }
-            throw new NullReferenceException("serial is null");
+
+            // 快速检查 token
+            if (cancellationToken.IsCancellationRequested) throw new OperationCanceledException(cancellationToken);
+
+            // 在串口操作上加锁，避免并发调用导致的竞态
+            lock (_serialLock)
+            {
+                try
+                {
+                    if (!serialPort.IsOpen)
+                    {
+                        serialPort.Open();
+                    }
+
+                    // 最小化在 Clear/Discard 时的异常未捕获：先检查 IsOpen，再调用
+                    try
+                    {
+                        if (serialPort.IsOpen)
+                        {
+                            serialPort.DiscardInBuffer();
+                            serialPort.DiscardOutBuffer();
+                        }
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // 端口状态在操作过程中发生变化（可能被关闭），尝试重新打开或继续让上层重试
+                        if (!serialPort.IsOpen)
+                        {
+                            try { serialPort.Open(); } catch { /* ignore, let write fail below */ }
+                        }
+                    }
+                    catch (IOException)
+                    {
+                        serialPort.Close();
+                        serialPort.Dispose();
+                        serialPort = null;
+                        // 底层 I/O 被中止（例如设备拔出或驱动问题），将异常抛出给上层以触发重连/重试逻辑
+                        throw;
+                    }
+
+                    // 写入数据（SerialPort.Write 本身也可能抛出）
+                    serialPort.Write(data, 0, data.Length);
+                    return;
+                }
+                catch (OperationCanceledException)
+                {
+                    // 传入的 cancellationToken 取消，向上层报告
+                    throw;
+                }
+                // 选择性捕获并重新抛出常见串口异常，便于上层按策略重试或重建连接
+                catch (UnauthorizedAccessException)
+                {
+                    throw;
+                }
+                catch (IOException)
+                {
+                    throw;
+                }
+                catch (InvalidOperationException)
+                {
+                    throw;
+                }
+            }
         }
 
         public override async Task<byte[]> ReciveAsync(CancellationToken cancellationToken)

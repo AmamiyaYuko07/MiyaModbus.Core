@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<Version>1.0.9</Version>
+		<Version>1.1.0</Version>
 		<Description>Easy ModbusRtu、ModbusTcp、ModbusRtuOverTcp And ASCII serial/tcp Communications Library</Description>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>MiyaModbus</Title>
@@ -12,7 +12,7 @@
 		<Copyright></Copyright>
 		<PackageProjectUrl>https://github.com/AmamiyaYuko07/MiyaModbus.Core</PackageProjectUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageReleaseNotes>新增了ModbusExtend扩展类，现在可以无感切换ModbusRTU和ModbusTCP的读写了</PackageReleaseNotes>
+		<PackageReleaseNotes>现在对串口驱动导致的中断有更详细的处理，并且ASCIIDevice会自动重连由于IO导致中断的串口</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
