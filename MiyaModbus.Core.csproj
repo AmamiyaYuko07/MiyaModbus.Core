@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<Version>1.1.0</Version>
+		<Version>1.1.1</Version>
 		<Description>Easy ModbusRtu、ModbusTcp、ModbusRtuOverTcp And ASCII serial/tcp Communications Library</Description>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>MiyaModbus</Title>
@@ -12,7 +12,7 @@
 		<Copyright></Copyright>
 		<PackageProjectUrl>https://github.com/AmamiyaYuko07/MiyaModbus.Core</PackageProjectUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageReleaseNotes>现在对串口驱动导致的中断有更详细的处理，并且ASCIIDevice会自动重连由于IO导致中断的串口</PackageReleaseNotes>
+		<PackageReleaseNotes>将数据点位类型从short改为ushort以能读取更加多的范围</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
