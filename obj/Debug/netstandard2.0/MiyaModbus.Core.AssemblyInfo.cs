@@ -15,11 +15,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Easy ModbusRtu、ModbusTcp、ModbusRtuOverTcp And ASCII serial/tcp Communications Lib" +
     "rary")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.8.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.8+ff1e1a641fd12669729a2b7c7027cce29b32e3dd")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.1.0+7115ba6045d1dc79eb12536e172f00ec030f5bb7")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiyaModbus.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiyaModbus.Core")]
-[assembly: System.Reflection.AssemblyVersionAttribute("1.0.8.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.1.0.0")]
 
 // 由 MSBuild WriteCodeFragment 类生成。
 

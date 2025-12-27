@@ -7,7 +7,7 @@ namespace MiyaModbus.Core.Models.ModbusTcp
 {
     public class ModbusReadOutputCoilMessage : BaseMessage
     {
-        public ModbusReadOutputCoilMessage(byte stationId, short point, short length)
+        public ModbusReadOutputCoilMessage(byte stationId, ushort point, ushort length)
         {
             StationId = stationId;
             Point = point;
@@ -15,8 +15,8 @@ namespace MiyaModbus.Core.Models.ModbusTcp
         }
 
         public byte StationId { get; }
-        public short Point { get; }
-        public short Length { get; }
+        public ushort Point { get; }
+        public ushort Length { get; }
 
         public override byte[] Build()
         {
@@ -24,8 +24,8 @@ namespace MiyaModbus.Core.Models.ModbusTcp
             builder.Append(new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x06 });
             builder.Append(StationId);
             builder.Append(0x01);       //功能码
-            builder.AppendInt16(Point);
-            builder.AppendInt16(Length);
+            builder.AppendUInt16(Point);
+            builder.AppendUInt16(Length);
             return builder.ToArray();
         }
     }

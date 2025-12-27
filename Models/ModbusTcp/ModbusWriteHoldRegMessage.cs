@@ -7,7 +7,7 @@ namespace MiyaModbus.Core.Models.ModbusTcp
 {
     public class ModbusWriteHoldRegMessage : BaseMessage
     {
-        public ModbusWriteHoldRegMessage(byte stationId, short point, byte[] values)
+        public ModbusWriteHoldRegMessage(byte stationId, ushort point, byte[] values)
         {
             StationId = stationId;
             Point = point;
@@ -24,7 +24,7 @@ namespace MiyaModbus.Core.Models.ModbusTcp
 
         public byte StationId { get; }
 
-        public short Point { get; }
+        public ushort Point { get; }
 
         public byte[] Values { get; }
 
@@ -32,11 +32,11 @@ namespace MiyaModbus.Core.Models.ModbusTcp
         {
             ByteBuilder builder = new ByteBuilder();
             builder.Append(new byte[] { 0x00, 0x00, 0x00, 0x00 });
-            builder.AppendInt16((short)(7 + Values.Length));
+            builder.AppendUInt16((ushort)(7 + Values.Length));
             builder.Append(StationId);
             builder.Append(0x10);       //功能码
-            builder.AppendInt16(Point);
-            builder.AppendInt16((short)(Values.Length / 2));
+            builder.AppendUInt16(Point);
+            builder.AppendUInt16((ushort)(Values.Length / 2));
             builder.Append((byte)Values.Length);
             builder.Append(Values);
             return builder.ToArray();

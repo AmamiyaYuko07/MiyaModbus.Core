@@ -7,7 +7,7 @@ namespace MiyaModbus.Core.Models.ModbusRtu
 {
     public class ModbusRtuReadOutputCoilMessage : BaseMessage
     {
-        public ModbusRtuReadOutputCoilMessage(byte stationId, short point, short length)
+        public ModbusRtuReadOutputCoilMessage(byte stationId, ushort point, ushort length)
         {
             StationId = stationId;
             Point = point;
@@ -15,16 +15,16 @@ namespace MiyaModbus.Core.Models.ModbusRtu
         }
 
         public byte StationId { get; }
-        public short Point { get; }
-        public short Length { get; }
+        public ushort Point { get; }
+        public ushort Length { get; }
 
         public override byte[] Build()
         {
             ByteBuilder builder = new ByteBuilder();
             builder.Append(StationId);
             builder.Append(0x01);       //功能码
-            builder.AppendInt16(Point);
-            builder.AppendInt16(Length);
+            builder.AppendUInt16(Point);
+            builder.AppendUInt16(Length);
             var crc16 = builder.ToArray().GetCRC16();
             builder.Append(crc16);
             return builder.ToArray();

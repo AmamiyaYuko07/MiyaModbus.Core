@@ -7,7 +7,7 @@ namespace MiyaModbus.Core.Models.ModbusRtu
 {
     public class ModbusRtuWriteHoldRegMessage : BaseMessage
     {
-        public ModbusRtuWriteHoldRegMessage(byte stationId, short point, byte[] values)
+        public ModbusRtuWriteHoldRegMessage(byte stationId, ushort point, byte[] values)
         {
             StationId = stationId;
             Point = point;
@@ -24,7 +24,7 @@ namespace MiyaModbus.Core.Models.ModbusRtu
 
         public byte StationId { get; }
 
-        public short Point { get; }
+        public ushort Point { get; }
 
         public byte[] Values { get; }
 
@@ -33,8 +33,8 @@ namespace MiyaModbus.Core.Models.ModbusRtu
             ByteBuilder builder = new ByteBuilder();
             builder.Append(StationId);
             builder.Append(0x10);
-            builder.AppendInt16(Point);
-            builder.AppendInt16((short)(Values.Length / 2));
+            builder.AppendUInt16(Point);
+            builder.AppendUInt16((ushort)(Values.Length / 2));
             builder.Append((byte)Values.Length);
             builder.Append(Values);
             var crc16 = builder.ToArray().GetCRC16();

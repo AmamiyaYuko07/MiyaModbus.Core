@@ -18,7 +18,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<short> ReadShortAsync(this ModbusRtuDevice device, short point)
+        public static async Task<short> ReadShortAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, 1));
             if (result.IsSuccess)
@@ -35,7 +35,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static async Task<short[]> ReadShortsAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<short[]> ReadShortsAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, length));
             if (result.IsSuccess)
@@ -57,7 +57,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static async Task<byte[]> ReadDataAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<byte[]> ReadDataAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, length));
             if (result.IsSuccess)
@@ -73,7 +73,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<short> ReadInputShortAsync(this ModbusRtuDevice device, short point)
+        public static async Task<short> ReadInputShortAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, 1));
             if (result.IsSuccess)
@@ -89,7 +89,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<short[]> ReadInputShortsAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<short[]> ReadInputShortsAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, length));
             if (result.IsSuccess)
@@ -110,7 +110,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<int> ReadIntAsync(this ModbusRtuDevice device, short point)
+        public static async Task<int> ReadIntAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, 2));
             if (result.IsSuccess)
@@ -128,9 +128,9 @@ namespace MiyaModbus.Core.Utils
         /// <param name="length"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static async Task<int[]> ReadIntsAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<int[]> ReadIntsAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
-            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, (short)(length * 2)));
+            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, (ushort)(length * 2)));
             if (result.IsSuccess)
             {
                 List<int> ints = new List<int>();
@@ -149,7 +149,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<int> ReadInputIntAsync(this ModbusRtuDevice device, short point)
+        public static async Task<int> ReadInputIntAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, 2));
             if (result.IsSuccess)
@@ -165,9 +165,9 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<int[]> ReadInputIntsAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<int[]> ReadInputIntsAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
-            var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, (short)(length * 2)));
+            var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, (ushort)(length * 2)));
             if (result.IsSuccess)
             {
                 List<int> ints = new List<int>();
@@ -186,7 +186,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<ushort> ReadUShortAsync(this ModbusRtuDevice device, short point)
+        public static async Task<ushort> ReadUShortAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, 1));
             if (result.IsSuccess)
@@ -199,7 +199,7 @@ namespace MiyaModbus.Core.Utils
         /// <summary>
         /// 批量读取保持寄存器无符号短整型数据
         /// </summary>
-        public static async Task<ushort[]> ReadUShortsAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<ushort[]> ReadUShortsAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, length));
             if (result.IsSuccess)
@@ -220,7 +220,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<ushort> ReadInputUShortAsync(this ModbusRtuDevice device, short point)
+        public static async Task<ushort> ReadInputUShortAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, 1));
             if (result.IsSuccess)
@@ -236,7 +236,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<ushort[]> ReadInputUShortsAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<ushort[]> ReadInputUShortsAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, length));
             if (result.IsSuccess)
@@ -257,7 +257,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<uint> ReadUIntAsync(this ModbusRtuDevice device, short point)
+        public static async Task<uint> ReadUIntAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, 2));
             if (result.IsSuccess)
@@ -274,9 +274,9 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static async Task<uint[]> ReadUIntsAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<uint[]> ReadUIntsAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
-            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, (short)(length * 2)));
+            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, (ushort)(length * 2)));
             if (result.IsSuccess)
             {
                 List<uint> ints = new List<uint>();
@@ -295,7 +295,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<uint> ReadInputUIntAsync(this ModbusRtuDevice device, short point)
+        public static async Task<uint> ReadInputUIntAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, 2));
             if (result.IsSuccess)
@@ -312,9 +312,9 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static async Task<uint[]> ReadInputUIntsAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<uint[]> ReadInputUIntsAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
-            var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, (short)(length * 2)));
+            var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, (ushort)(length * 2)));
             if (result.IsSuccess)
             {
                 List<uint> ints = new List<uint>();
@@ -333,7 +333,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<long> ReadLongAsync(this ModbusRtuDevice device, short point)
+        public static async Task<long> ReadLongAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, 4));
             if (result.IsSuccess)
@@ -349,7 +349,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<ulong> ReadULongAsync(this ModbusRtuDevice device, short point)
+        public static async Task<ulong> ReadULongAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, 4));
             if (result.IsSuccess)
@@ -365,7 +365,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<long> ReadInputLongAsync(this ModbusRtuDevice device, short point)
+        public static async Task<long> ReadInputLongAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, 4));
             if (result.IsSuccess)
@@ -381,7 +381,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<ulong> ReadInputULongAsync(this ModbusRtuDevice device, short point)
+        public static async Task<ulong> ReadInputULongAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, 4));
             if (result.IsSuccess)
@@ -397,7 +397,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<float> ReadFloatAsync(this ModbusRtuDevice device, short point)
+        public static async Task<float> ReadFloatAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, 2));
             if (result.IsSuccess)
@@ -415,9 +415,9 @@ namespace MiyaModbus.Core.Utils
         /// <param name="length"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static async Task<float[]> ReadFloatsAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<float[]> ReadFloatsAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
-            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, (short)(length * 2)));
+            var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, (ushort)(length * 2)));
             if (result.IsSuccess)
             {
                 List<float> floats = new List<float>();
@@ -436,7 +436,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<double> ReadDoubleAsync(this ModbusRtuDevice device, short point)
+        public static async Task<double> ReadDoubleAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadHoldRegMessage(device.StationId, point, 4));
             if (result.IsSuccess)
@@ -452,7 +452,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<float> ReadInputFloatAsync(this ModbusRtuDevice device, short point)
+        public static async Task<float> ReadInputFloatAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, 2));
             if (result.IsSuccess)
@@ -469,9 +469,9 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static async Task<float[]> ReadInputFloatsAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<float[]> ReadInputFloatsAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
-            var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, (short)(length * 2)));
+            var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, (ushort)(length * 2)));
             if (result.IsSuccess)
             {
                 List<float> floats = new List<float>();
@@ -490,7 +490,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="device"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        public static async Task<double> ReadInputDoubleAsync(this ModbusRtuDevice device, short point)
+        public static async Task<double> ReadInputDoubleAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadInputRegMessage(device.StationId, point, 4));
             if (result.IsSuccess)
@@ -507,7 +507,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public static async Task<bool> ReadCoilAsync(this ModbusRtuDevice device, short point)
+        public static async Task<bool> ReadCoilAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadOutputCoilMessage(device.StationId, point, 1));
             if (result.IsSuccess)
@@ -524,7 +524,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static async Task<bool[]> ReadCoilsAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<bool[]> ReadCoilsAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
             bool[] lists = new bool[length];
             var result = await device.SendMessageAsync(new ModbusRtuReadOutputCoilMessage(device.StationId, point, length));
@@ -557,7 +557,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public static async Task<bool> ReadInputCoilAsync(this ModbusRtuDevice device, short point)
+        public static async Task<bool> ReadInputCoilAsync(this ModbusRtuDevice device, ushort point)
         {
             var result = await device.SendMessageAsync(new ModbusRtuReadInputCoilMessage(device.StationId, point, 1));
             if (result.IsSuccess)
@@ -574,7 +574,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static async Task<bool[]> ReadInputCoilsAsync(this ModbusRtuDevice device, short point, short length)
+        public static async Task<bool[]> ReadInputCoilsAsync(this ModbusRtuDevice device, ushort point, ushort length)
         {
             bool[] lists = new bool[length];
             var result = await device.SendMessageAsync(new ModbusRtuReadInputCoilMessage(device.StationId, point, length));
@@ -607,7 +607,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="values"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteSingleCoilAsync(this ModbusRtuDevice device, short point, bool value)
+        public static async Task<bool> WriteSingleCoilAsync(this ModbusRtuDevice device, ushort point, bool value)
         {
             var result = await device.SendMessageAsync(new ModbusRtuWriteSingleCoilMessage(device.StationId, point, value));
             return result.IsSuccess;
@@ -620,7 +620,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="values"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteCoilAsync(this ModbusRtuDevice device, short point, params bool[] values)
+        public static async Task<bool> WriteCoilAsync(this ModbusRtuDevice device, ushort point, params bool[] values)
         {
             var result = await device.SendMessageAsync(new ModbusRtuWriteCoilMessage(device.StationId, point, values));
             return result.IsSuccess;
@@ -633,7 +633,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteShortAsync(this ModbusRtuDevice device, short point, short value)
+        public static async Task<bool> WriteShortAsync(this ModbusRtuDevice device, ushort point, short value)
         {
             var data = BitConverter.GetBytes(value);
             if (device.Options.ShortReverse)
@@ -647,7 +647,7 @@ namespace MiyaModbus.Core.Utils
         /// <summary>
         /// 批量写入短整型
         /// </summary>
-        public static async Task<bool> WriteShortsAsync(this ModbusRtuDevice device, short point, params short[] values)
+        public static async Task<bool> WriteShortsAsync(this ModbusRtuDevice device, ushort point, params short[] values)
         {
             List<byte> bytes = new List<byte>();
             foreach (var value in values)
@@ -670,7 +670,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteUShortAsync(this ModbusRtuDevice device, short point, ushort value)
+        public static async Task<bool> WriteUShortAsync(this ModbusRtuDevice device, ushort point, ushort value)
         {
             var data = BitConverter.GetBytes(value);
             if (device.Options.ShortReverse)
@@ -688,7 +688,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteUShortsAsync(this ModbusRtuDevice device, short point, params ushort[] values)
+        public static async Task<bool> WriteUShortsAsync(this ModbusRtuDevice device, ushort point, params ushort[] values)
         {
             List<byte> bytes = new List<byte>();
             foreach (var value in values)
@@ -711,7 +711,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteIntAsync(this ModbusRtuDevice device, short point, int value)
+        public static async Task<bool> WriteIntAsync(this ModbusRtuDevice device, ushort point, int value)
         {
             var data = BitConverter.GetBytes(value);
             var ret = data.BytesOrder(device.Options.IntOrder);
@@ -726,7 +726,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteIntsAsync(this ModbusRtuDevice device, short point, params int[] values)
+        public static async Task<bool> WriteIntsAsync(this ModbusRtuDevice device, ushort point, params int[] values)
         {
             List<byte> bytes = new List<byte>();
             foreach (var value in values)
@@ -746,7 +746,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteUIntAsync(this ModbusRtuDevice device, short point, uint value)
+        public static async Task<bool> WriteUIntAsync(this ModbusRtuDevice device, ushort point, uint value)
         {
             var data = BitConverter.GetBytes(value);
             var ret = data.BytesOrder(device.Options.IntOrder);
@@ -761,7 +761,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteUIntsAsync(this ModbusRtuDevice device, short point, params uint[] values)
+        public static async Task<bool> WriteUIntsAsync(this ModbusRtuDevice device, ushort point, params uint[] values)
         {
             List<byte> bytes = new List<byte>();
             foreach (var value in values)
@@ -781,7 +781,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteLongAsync(this ModbusRtuDevice device, short point, long value)
+        public static async Task<bool> WriteLongAsync(this ModbusRtuDevice device, ushort point, long value)
         {
             var data = BitConverter.GetBytes(value);
             var ret = data.BytesOrder(device.Options.LongOrder);
@@ -796,7 +796,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteULongAsync(this ModbusRtuDevice device, short point, ulong value)
+        public static async Task<bool> WriteULongAsync(this ModbusRtuDevice device, ushort point, ulong value)
         {
             var data = BitConverter.GetBytes(value);
             var ret = data.BytesOrder(device.Options.LongOrder);
@@ -811,7 +811,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteFloatAsync(this ModbusRtuDevice device, short point, float value)
+        public static async Task<bool> WriteFloatAsync(this ModbusRtuDevice device, ushort point, float value)
         {
             var data = BitConverter.GetBytes(value);
             var ret = data.BytesOrder(device.Options.FloatOrder);
@@ -826,7 +826,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteFloatsAsync(this ModbusRtuDevice device, short point, params float[] values)
+        public static async Task<bool> WriteFloatsAsync(this ModbusRtuDevice device, ushort point, params float[] values)
         {
             List<byte> bytes = new List<byte>();
             foreach (var value in values)
@@ -846,7 +846,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteDoubleAsync(this ModbusRtuDevice device, short point, double value)
+        public static async Task<bool> WriteDoubleAsync(this ModbusRtuDevice device, ushort point, double value)
         {
             var data = BitConverter.GetBytes(value);
             var ret = data.BytesOrder(device.Options.DoubleOrder);
@@ -861,7 +861,7 @@ namespace MiyaModbus.Core.Utils
         /// <param name="point"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static async Task<bool> WriteDataAsync(this ModbusRtuDevice device, short point, byte[] data)
+        public static async Task<bool> WriteDataAsync(this ModbusRtuDevice device, ushort point, byte[] data)
         {
             var result = await device.SendMessageAsync(new ModbusRtuWriteHoldRegMessage(device.StationId, point, data));
             return result.IsSuccess;

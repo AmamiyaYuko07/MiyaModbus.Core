@@ -15,14 +15,14 @@ namespace MiyaModbus.Core.Models.ModbusTcp
         /// <summary>
         /// 起始点位
         /// </summary>
-        public short Point { get; }
+        public ushort Point { get; }
 
         /// <summary>
         /// 写入的值
         /// </summary>
         public bool Value { get; }
 
-        public ModbusWriteSingleCoilMessage(byte stationId, short point, bool value)
+        public ModbusWriteSingleCoilMessage(byte stationId, ushort point, bool value)
         {
             StationId = stationId;
             Point = point;
@@ -37,7 +37,7 @@ namespace MiyaModbus.Core.Models.ModbusTcp
             builder.Append(0x06);
             builder.Append(StationId);
             builder.Append(0x05);       //功能码
-            builder.AppendInt16(Point); 
+            builder.AppendUInt16(Point); 
             if (Value)
             {
                 builder.Append(0xFF);

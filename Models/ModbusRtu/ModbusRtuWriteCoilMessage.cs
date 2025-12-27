@@ -8,7 +8,7 @@ namespace MiyaModbus.Core.Models.ModbusRtu
 {
     public class ModbusRtuWriteCoilMessage : BaseMessage
     {
-        public ModbusRtuWriteCoilMessage(byte stationId, short point, short bits, byte[] values)
+        public ModbusRtuWriteCoilMessage(byte stationId, ushort point, ushort bits, byte[] values)
         {
             StationId = stationId;
             Point = point;
@@ -16,11 +16,11 @@ namespace MiyaModbus.Core.Models.ModbusRtu
             Bits = bits;
         }
 
-        public ModbusRtuWriteCoilMessage(byte stationId, short point, params bool[] values)
+        public ModbusRtuWriteCoilMessage(byte stationId, ushort point, params bool[] values)
         {
             StationId = stationId;
             Point = point;
-            Bits = (short)values.Length;
+            Bits = (ushort)values.Length;
             var strs = values.Select(x => x ? "1" : "0").ToArray();
             var index = strs.Length / 8;
             List<byte> bytes = new List<byte>();
@@ -49,7 +49,7 @@ namespace MiyaModbus.Core.Models.ModbusRtu
         /// <summary>
         /// 起始点位
         /// </summary>
-        public short Point { get; }
+        public ushort Point { get; }
 
         /// <summary>
         /// 写入的值
@@ -59,15 +59,15 @@ namespace MiyaModbus.Core.Models.ModbusRtu
         /// <summary>
         /// 写入多少位
         /// </summary>
-        public short Bits { set; get; }
+        public ushort Bits { set; get; }
 
         public override byte[] Build()
         {
             ByteBuilder builder = new ByteBuilder();
             builder.Append(StationId);
             builder.Append(0x0F);
-            builder.AppendInt16(Point);
-            builder.AppendInt16(Bits);
+            builder.AppendUInt16(Point);
+            builder.AppendUInt16(Bits);
             builder.Append((byte)Values.Length);
             builder.Append(Values);
             var crc16 = builder.ToArray().GetCRC16();

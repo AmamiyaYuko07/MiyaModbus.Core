@@ -16,14 +16,14 @@ namespace MiyaModbus.Core.Models.ModbusRtu
         /// <summary>
         /// 起始点位
         /// </summary>
-        public short Point { get; }
+        public ushort Point { get; }
 
         /// <summary>
         /// 写入的值
         /// </summary>
         public bool Value { get; }
 
-        public ModbusRtuWriteSingleCoilMessage(byte stationId, short point, bool value)
+        public ModbusRtuWriteSingleCoilMessage(byte stationId, ushort point, bool value)
         {
             StationId = stationId;
             Point = point;
@@ -35,7 +35,7 @@ namespace MiyaModbus.Core.Models.ModbusRtu
             ByteBuilder builder = new ByteBuilder();
             builder.Append(StationId);
             builder.Append(0x05);
-            builder.AppendInt16(Point);
+            builder.AppendUInt16(Point);
             if (Value)
             {
                 builder.Append(0xFF);
