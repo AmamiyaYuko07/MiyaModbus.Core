@@ -1,6 +1,7 @@
 ﻿using MiyaModbus.Core.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -55,33 +56,50 @@ namespace MiyaModbus.Core.Networks
             {
                 NetworkStream ns = client.GetStream();
                 List<byte> datas = new List<byte>();
-                var count = 3;
+                bool dataReceived = false;
+                int idleCount = 0;
+                const int maxIdleChecks = 3;
+
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    if ((!client.Client.Poll(50, SelectMode.SelectRead) || client.Client.Available != 0) && client.Connected)
-                    {
-                        if (client.Client.Poll(50, SelectMode.SelectRead) || client.Available > 0)
-                        {
-                            byte[] buffer = new byte[1024];
-                            int word;
-                            while (client.Available > 0 && (word = await ns.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
-                            {
-                                byte[] temp = new byte[word];
-                                Buffer.BlockCopy(buffer, 0, temp, 0, word);
-                                datas.AddRange(temp);
-                            }
-                            continue;
-                        }
-                        if (datas.Count > 0) return datas.ToArray();
-                        else count--;
-                        await Task.Delay(20);
-                    }
-                    else
+                    if (!client.Connected)
                     {
                         client.Close();
                         client.Dispose();
+                        break;
                     }
-                    if (count <= 0) return datas.ToArray();
+
+                    if (client.Available > 0)
+                    {
+                        byte[] buffer = new byte[1024];
+                        int word = await ns.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+                        if (word > 0)
+                        {
+                            byte[] temp = new byte[word];
+                            Buffer.BlockCopy(buffer, 0, temp, 0, word);
+                            datas.AddRange(temp);
+                            dataReceived = true;
+                            idleCount = 0;
+                        }
+                    }
+                    else if (dataReceived)
+                    {
+                        await Task.Delay(20, cancellationToken);
+                        idleCount++;
+                        if (idleCount >= maxIdleChecks)
+                        {
+                            return datas.ToArray();
+                        }
+                    }
+                    else
+                    {
+                        await Task.Delay(10, cancellationToken);
+                    }
+                }
+
+                if (datas.Count > 0)
+                {
+                    return datas.ToArray();
                 }
             }
             return new byte[0];
@@ -89,20 +107,30 @@ namespace MiyaModbus.Core.Networks
 
         public override async Task SendAsync(byte[] data, CancellationToken cancellationToken)
         {
-            if (IsConnected && client != null)
+            if (!IsConnected || client == null)
             {
-                if (client.Client.Poll(200, SelectMode.SelectWrite))
-                {
-                    NetworkStream ns = client.GetStream();
-                    await ns.WriteAsync(data, 0, data.Length, cancellationToken);
-                    await ns.FlushAsync(cancellationToken);
-                    return;
-                }
-
-                throw new StreamCannotWriteException();
+                throw new NetworkNotConnectException($"network {Address}:{Port} not connected");
             }
 
-            throw new NetworkNotConnectException($"network {Address}:{Port} not connected");
+            try
+            {
+                NetworkStream ns = client.GetStream();
+                if (!ns.CanWrite)
+                {
+                    throw new StreamCannotWriteException();
+                }
+
+                await ns.WriteAsync(data, 0, data.Length, cancellationToken);
+                await ns.FlushAsync(cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex) when (ex is IOException || ex is ObjectDisposedException)
+            {
+                throw new StreamCannotWriteException();
+            }
         }
 
         public override async Task Start(double timeout = 3.0)

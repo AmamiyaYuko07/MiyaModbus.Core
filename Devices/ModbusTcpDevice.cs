@@ -37,21 +37,22 @@ namespace MiyaModbus.Core.Devices
                 Device = this,
                 Data = message.Build()
             };
+            Exception exc = null;
             while (IsRunning && tryCount > 0)
             {
-                var retData = new byte[0];
+                byte[] retData;
                 try
                 {
                     retData = await Channel.SendMessageAsync(message);
                 }
                 catch (Exception ex)
                 {
+                    exc = ex;
                     tryCount--;
                     continue;
                 }
                 if (retData.Length == 9)
                 {
-                    //PLC返回错误 报错
                     switch (retData[6])
                     {
                         case 1:
@@ -97,6 +98,8 @@ namespace MiyaModbus.Core.Devices
                     return result;
                 }
             }
+            if (exc != null)
+                throw exc;
             return new FailedResult(options);
         }
     }

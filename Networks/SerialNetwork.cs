@@ -130,52 +130,57 @@ namespace MiyaModbus.Core.Networks
 
         public override async Task<byte[]> ReciveAsync(CancellationToken cancellationToken)
         {
-            if (serialPort != null)
+            if (serialPort == null)
             {
-                if (!serialPort.IsOpen)
-                {
-                    serialPort.Open();
-                }
+                throw new NullReferenceException("serial is null");
+            }
 
-                List<byte> data = new List<byte>();
-                while (serialPort.BytesToRead == 0 && !cancellationToken.IsCancellationRequested)
-                {
-                    await Task.Delay(1);
-                }
+            if (!serialPort.IsOpen)
+            {
+                serialPort.Open();
+            }
 
-                while (serialPort.BytesToRead > 0)
+            List<byte> data = new List<byte>();
+            bool dataReceived = false;
+            int idleCount = 0;
+            const int maxIdleChecks = 3;
+
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                if (serialPort.BytesToRead > 0)
                 {
                     byte[] array = new byte[serialPort.BytesToRead];
-                    serialPort.Read(array, 0, array.Length);
-                    data.AddRange(array);
-                    await Task.Delay(20);
-
-                    //每隔20毫秒判断一次是否有数据 但需要经过60毫秒才确定数据传输完成
-                    if (serialPort.BytesToRead > 0)
+                    int bytesRead = serialPort.Read(array, 0, array.Length);
+                    if (bytesRead > 0)
                     {
-                        array = new byte[serialPort.BytesToRead];
-                        serialPort.Read(array, 0, array.Length);
-                        data.AddRange(array);
-                        await Task.Delay(20);
-                        continue;
+                        byte[] temp = new byte[bytesRead];
+                        Buffer.BlockCopy(array, 0, temp, 0, bytesRead);
+                        data.AddRange(temp);
+                        dataReceived = true;
+                        idleCount = 0;
                     }
-                    await Task.Delay(20);
-
-                    if (serialPort.BytesToRead > 0)
-                    {
-                        array = new byte[serialPort.BytesToRead];
-                        serialPort.Read(array, 0, array.Length);
-                        data.AddRange(array);
-                        await Task.Delay(20);
-                        continue;
-                    }
-                    await Task.Delay(20);
                 }
+                else if (dataReceived)
+                {
+                    await Task.Delay(20, cancellationToken);
+                    idleCount++;
+                    if (idleCount >= maxIdleChecks)
+                    {
+                        return data.ToArray();
+                    }
+                }
+                else
+                {
+                    await Task.Delay(1, cancellationToken);
+                }
+            }
 
+            if (data.Count > 0)
+            {
                 return data.ToArray();
             }
 
-            throw new NullReferenceException("serial is null");
+            return new byte[0];
         }
 
         public override async Task Start(double timeout = 5)

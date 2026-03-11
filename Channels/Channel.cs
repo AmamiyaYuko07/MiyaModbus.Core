@@ -142,15 +142,23 @@ namespace MiyaModbus.Core.Channels
                             {
                                 if (message.Data.Length > 0)
                                 {
-                                    //发送数据
                                     await Network.SendAsync(message.Data, CancellationTokenSource.Token);
                                 }
 
-                                //等待设备处理数据时间
-                                await Task.Delay(_options.StepWaitTime);
-
-                                //尝试接收数据
-                                result = await Network.ReciveAsync(CancellationTokenSource.Token);
+                                using (var receiveTimeout = new CancellationTokenSource(_options.MsgWaitTime))
+                                using (var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(
+                                    CancellationTokenSource.Token, receiveTimeout.Token))
+                                {
+                                    result = await Network.ReciveAsync(linkedCts.Token);
+                                }
+                            }
+                            catch (OperationCanceledException)
+                            {
+                                if (!IsRunning || CancellationTokenSource.IsCancellationRequested)
+                                {
+                                    message.HaveResult = true;
+                                    continue;
+                                }
                             }
                             catch
                             {

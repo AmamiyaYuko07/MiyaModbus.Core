@@ -13,9 +13,14 @@ namespace MiyaModbus.Core.Channels
     public class DirectChannel : IChannel
     {
         private readonly INetwork _network;
-        public DirectChannel(INetwork network)
+        private readonly double _sendTimeout;
+        private readonly double _receiveTimeout;
+
+        public DirectChannel(INetwork network, double sendTimeout = 1.0, double receiveTimeout = 2.0)
         {
             _network = network;
+            _sendTimeout = sendTimeout;
+            _receiveTimeout = receiveTimeout;
         }
 
         public string Code { get; set; }
@@ -29,10 +34,17 @@ namespace MiyaModbus.Core.Channels
         public async Task<byte[]> SendMessageAsync(IMessage message)
         {
             var data = message.Build();
-            CancellationTokenSource cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(3));
-            await Network.SendAsync(data, cancellationToken.Token);
-            var result = await Network.ReciveAsync(cancellationToken.Token);
-            return result;
+
+            using (var sendCts = new CancellationTokenSource(TimeSpan.FromSeconds(_sendTimeout)))
+            {
+                await Network.SendAsync(data, sendCts.Token);
+            }
+
+            using (var receiveCts = new CancellationTokenSource(TimeSpan.FromSeconds(_receiveTimeout)))
+            {
+                var result = await Network.ReciveAsync(receiveCts.Token);
+                return result;
+            }
         }
 
         public async Task Start()
